@@ -12,7 +12,6 @@ public class VisitDate {
 
     public VisitDate(int month, String day) {
         this.month = month;
-        FormatValidator.validateDay(day);
         this.day = Parser.parseInteger(day);
         validateDay();
     }

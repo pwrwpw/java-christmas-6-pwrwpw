@@ -9,12 +9,8 @@ public class FormatValidator {
 
     private static final Pattern dayRegex = Pattern.compile("^[0-9]{1,2}$"); // 1~2자리 숫자
 
-    public static void validateDay(String day) {
+    public static boolean isValidDayFormat(String day) {
         Matcher matcher = dayRegex.matcher(day);
-        boolean isInvalidFormat = matcher.matches();
-
-        if (!isInvalidFormat) {
-            throw new FormatDayException();
-        }
+        return !matcher.matches();
     }
 }
