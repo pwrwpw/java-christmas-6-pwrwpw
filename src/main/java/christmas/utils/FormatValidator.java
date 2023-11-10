@@ -1,5 +1,6 @@
 package christmas.utils;
 
+import christmas.exception.domain.visitdate.FormatDayException;
 import christmas.exception.domain.visitdate.InvalidDayException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -13,7 +14,7 @@ public class FormatValidator {
         boolean isInvalidFormat = matcher.matches();
 
         if (!isInvalidFormat) {
-            throw new InvalidDayException();
+            throw new FormatDayException();
         }
     }
 }
