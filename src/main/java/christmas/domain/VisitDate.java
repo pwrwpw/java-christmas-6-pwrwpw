@@ -21,4 +21,12 @@ public class VisitDate {
             throw new InvalidDayException();
         }
     }
+
+    public int getDay() {
+        return month;
+    }
+
+    public int getMonth() {
+        return day;
+    }
 }
