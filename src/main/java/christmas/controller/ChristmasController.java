@@ -1,5 +1,6 @@
 package christmas.controller;
 
+import christmas.domain.MenuItem;
 import christmas.domain.MenuItems;
 import christmas.domain.SelectMenu;
 import christmas.domain.VisitDate;
@@ -7,9 +8,11 @@ import christmas.exception.domain.visitdate.FormatDayException;
 import christmas.exception.domain.visitdate.InvalidDayException;
 import christmas.exception.domain.visitdate.InvalidOrderException;
 import christmas.policy.ChristmasPolicy;
+import christmas.policy.MenuPolicy;
 import christmas.utils.Parser;
 import christmas.view.InputView;
 import christmas.view.OutputView;
+import java.util.Arrays;
 
 public class ChristmasController {
 
@@ -28,6 +31,7 @@ public class ChristmasController {
         MenuItems menuItems = getMenuItems();
         outputView.printEventPreviewMessage(visitDate.getMonth(),visitDate.getDay());
         showOrderMenu(menuItems);
+        showTotalPrice(menuItems);
     }
 
     private VisitDate getVisitDate() {
@@ -61,5 +65,26 @@ public class ChristmasController {
         for (SelectMenu item : menuItems.getItems()) {
             System.out.println(item.getMenuName() + " " + item.getMenuCount() + "개");
         }
+    }
+
+    private void showTotalPrice(MenuItems menuItems) {
+        outputView.printTotalPriceMessage();
+        int totalPrice = 0;
+
+        for (SelectMenu item : menuItems.getItems()) {
+            int price = findMenuPrice(item.getMenuName());
+            totalPrice += price * item.getMenuCount();
+        }
+
+        outputView.printTotalPriceOutputMessage(totalPrice);
+    }
+
+    private int findMenuPrice(String menuName) {
+        return Arrays.stream(MenuPolicy.values())
+                .flatMap(menuPolicy -> menuPolicy.getMenuItems().stream())
+                .filter(menuItem -> menuItem.getName().equals(menuName))
+                .findFirst()
+                .map(MenuItem::getPrice)
+                .orElseThrow(InvalidOrderException::new);
     }
 }

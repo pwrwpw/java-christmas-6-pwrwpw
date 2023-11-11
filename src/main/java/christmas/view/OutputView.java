@@ -38,6 +38,10 @@ public class OutputView {
         OutputViewMessages.TOTAL_PRICE.print();
     }
 
+    public void printTotalPriceOutputMessage(int totalPrice) {
+        OutputViewMessages.TOTAL_PRICE_OUTPUT.print(totalPrice);
+    }
+
     public void printPresentMenuMessage() {
         OutputViewMessages.PRESENT_MENU.print();
     }

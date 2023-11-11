@@ -10,6 +10,7 @@ public enum OutputViewMessages {
     MAX_MENU_ITEMS_EX("(e.g. 시저샐러드-1, 티본스테이크-1, 크리스마스파스타-1, 제로콜라-3, 아이스크림-1의 총개수는 7개)"),
     ORDER_MENU("<주문 메뉴>"),
     TOTAL_PRICE("<할인 전 총주문 금액>"),
+    TOTAL_PRICE_OUTPUT("%d원"),
     PRESENT_MENU("<증정 메뉴>"),
     BENEFIT_DETAILS("<혜택 내역>"),
     TOTAL_BENEFIT_AMOUNT("<총혜택 금액>"),
