@@ -2,6 +2,7 @@ package christmas.domain;
 
 import christmas.exception.domain.visitdate.InvalidOrderException;
 import christmas.policy.MenuPolicy;
+import java.util.Objects;
 
 public class SelectMenu {
 
@@ -35,4 +36,17 @@ public class SelectMenu {
         }
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        SelectMenu that = (SelectMenu) o;
+        return menuCount == that.menuCount &&
+                Objects.equals(menuName, that.menuName);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(menuName, menuCount);
+    }
 }
