@@ -23,10 +23,10 @@ public class VisitDate {
     }
 
     public int getDay() {
-        return month;
+        return day;
     }
 
     public int getMonth() {
-        return day;
+        return month;
     }
 }
