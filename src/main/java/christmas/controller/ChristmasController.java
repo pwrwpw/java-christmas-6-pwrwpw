@@ -1,5 +1,6 @@
 package christmas.controller;
 
+import christmas.domain.Amount;
 import christmas.domain.MenuItem;
 import christmas.domain.MenuItems;
 import christmas.domain.SelectMenu;
@@ -76,7 +77,8 @@ public class ChristmasController {
             totalPrice += price * item.getMenuCount();
         }
 
-        outputView.printTotalPriceOutputMessage(totalPrice);
+        Amount totalAmount = new Amount(totalPrice);
+        outputView.printTotalPriceOutputMessage(totalAmount.value());
     }
 
     private int findMenuPrice(String menuName) {
