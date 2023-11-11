@@ -1,6 +1,7 @@
 package christmas.policy;
 
 public class ChristmasPolicy {
+    public static final int EVENT_YEAR = 2023;
     public static final int DECEMBER = 12;
     public static final int DEC_MINIMUM_DAY = 1;
     public static final int DEC_MAXIMUM_DAY = 31;

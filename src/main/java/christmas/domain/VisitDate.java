@@ -2,15 +2,17 @@ package christmas.domain;
 
 import christmas.exception.domain.visitdate.InvalidDayException;
 import christmas.policy.ChristmasPolicy;
-import christmas.utils.FormatValidator;
 import christmas.utils.Parser;
+import java.time.LocalDate;
 
 public class VisitDate {
 
+    private final int year;
     private final int month;
     private final int day;
 
-    public VisitDate(int month, String day) {
+    public VisitDate(int year, int month, String day) {
+        this.year = year;
         this.month = month;
         this.day = Parser.parseInteger(day);
         validateDay();
@@ -28,5 +30,9 @@ public class VisitDate {
 
     public int getMonth() {
         return month;
+    }
+
+    public LocalDate getLocalDate() {
+        return LocalDate.of(year, month, day);
     }
 }
