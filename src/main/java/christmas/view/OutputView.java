@@ -9,7 +9,7 @@ public class OutputView {
     }
 
     public void printEventPreviewMessage(int userInputMonth, int userInputDay) {
-        OutputViewMessages.EVENT_PREVIEW.print(userInputDay, userInputMonth);
+        OutputViewMessages.EVENT_PREVIEW.print(userInputMonth, userInputDay);
         System.out.println();
     }
 
@@ -40,6 +40,7 @@ public class OutputView {
 
     public void printTotalPriceOutputMessage(int totalPrice) {
         OutputViewMessages.TOTAL_PRICE_OUTPUT.print(totalPrice);
+        System.out.println();
     }
 
     public void printPresentMenuMessage() {
@@ -47,9 +48,11 @@ public class OutputView {
     }
     public void printPresentMenuOutputMessage(String menuName, int menuCount) {
         System.out.println(menuName + " " + menuCount + "개");
+        System.out.println();
     }
     public void printPresentMenuOutputMessage(String value) {
         System.out.println(value);
+        System.out.println();
     }
 
     public void printBenefitMessage() {
