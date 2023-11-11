@@ -41,6 +41,6 @@ public enum MenuPolicy {
     }
 
     public static boolean isNotValidMenuCount(int menuCount) {
-        return menuCount < 0;
+        return menuCount < 0 || menuCount > ChristmasPolicy.MAX_MENU_ITEMS;
     }
 }
