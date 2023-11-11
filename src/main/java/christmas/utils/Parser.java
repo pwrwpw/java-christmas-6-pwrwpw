@@ -35,9 +35,7 @@ public class Parser {
             }
             int quantity = Integer.parseInt(d);
             parsedItems.add(new SelectMenu(name, quantity));
-
         }
-
         return new MenuItems(parsedItems);
     }
 
