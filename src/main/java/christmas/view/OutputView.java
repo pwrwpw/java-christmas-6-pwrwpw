@@ -8,8 +8,9 @@ public class OutputView {
         OutputViewMessages.WELCOME.print(ChristmasPolicy.DECEMBER);
     }
 
-    public void printEventPreviewMessage(int userInputDate) {
-        OutputViewMessages.EVENT_PREVIEW.print(ChristmasPolicy.DECEMBER, userInputDate);
+    public void printEventPreviewMessage(int userInputMonth, int userInputDay) {
+        OutputViewMessages.EVENT_PREVIEW.print(userInputDay, userInputMonth);
+        System.out.println();
     }
 
     public void printEventGuidelines() {
@@ -26,6 +27,7 @@ public class OutputView {
 
     public void printMaxMenuItemsNotice() {
         OutputViewMessages.MAX_MENU_ITEMS.print(ChristmasPolicy.MAX_MENU_ITEMS);
+        OutputViewMessages.MAX_MENU_ITEMS_EX.print();
     }
 
     public void printOrderMenuMessage() {

@@ -7,6 +7,7 @@ public enum OutputViewMessages {
     MINIMUM_ORDER_AMOUNT("총주문 금액 %,d원 이상부터 이벤트가 적용됩니다."),
     BEVERAGE_ORDER_RESTRICTION("음료만 주문 시, 주문할 수 없습니다."),
     MAX_MENU_ITEMS("메뉴는 한 번에 최대 %d개까지만 주문할 수 있습니다."),
+    MAX_MENU_ITEMS_EX("(e.g. 시저샐러드-1, 티본스테이크-1, 크리스마스파스타-1, 제로콜라-3, 아이스크림-1의 총개수는 7개)"),
     ORDER_MENU("<주문 메뉴>"),
     TOTAL_PRICE("<할인 전 총주문 금액>"),
     PRESENT_MENU("<증정 메뉴>"),
