@@ -11,4 +11,16 @@ public class User {
         this.selectMenu = selectMenu;
         this.totalAmount = totalAmount;
     }
+
+    public int getVisitDay() {
+        return visitDate.getDay();
+    }
+
+    public String getSelectMenu() {
+        return selectMenu.getMenuName();
+    }
+
+    public int getTotalAmount() {
+        return totalAmount.value();
+    }
 }
