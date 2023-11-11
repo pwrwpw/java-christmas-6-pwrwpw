@@ -14,7 +14,7 @@ public class InputView {
         System.out.println("12월 중 식당 예상 방문 날짜는 언제인가요? (숫자만 입력해 주세요!)");
         String expectedVisitDay = readLine();
 
-        if (FormatValidator.isValidDayFormat(expectedVisitDay)) {
+        if (FormatValidator.isNumber(expectedVisitDay)) {
             throw new FormatDayException();
         }
         return expectedVisitDay;
@@ -27,6 +27,6 @@ public class InputView {
         if (StringValidator.isBlankOrEmpty(orderMenu)) {
             throw new InvalidOrderException();
         }
-        return readLine();
+        return orderMenu;
     }
 }
