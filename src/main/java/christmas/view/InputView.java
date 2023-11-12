@@ -2,7 +2,7 @@ package christmas.view;
 
 import static camp.nextstep.edu.missionutils.Console.readLine;
 
-import christmas.exception.domain.visitdate.FormatDayException;
+import christmas.exception.domain.visitdate.InvalidDayException;
 import christmas.exception.domain.visitdate.InvalidOrderException;
 import christmas.utils.FormatValidator;
 import christmas.utils.StringValidator;
@@ -15,7 +15,7 @@ public class InputView {
         String expectedVisitDay = readLine();
 
         if (FormatValidator.isNumber(expectedVisitDay)) {
-            throw new FormatDayException();
+            throw new InvalidDayException();
         }
         return expectedVisitDay;
     }

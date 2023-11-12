@@ -8,7 +8,6 @@ import christmas.domain.SelectMenu;
 import christmas.domain.Order;
 import christmas.domain.User;
 import christmas.domain.VisitDate;
-import christmas.exception.domain.visitdate.FormatDayException;
 import christmas.exception.domain.visitdate.InvalidDayException;
 import christmas.exception.domain.visitdate.InvalidOrderException;
 import christmas.policy.ChristmasPolicy;
@@ -68,7 +67,7 @@ public class ChristmasController {
         try {
             String day = inputView.getExpectedVisitDay();
             return new VisitDate(ChristmasPolicy.EVENT_YEAR, ChristmasPolicy.DECEMBER, day);
-        } catch (FormatDayException | InvalidDayException e) {
+        } catch (InvalidDayException e) {
             System.out.println(e.getMessage());
             return getVisitDate();
         }
