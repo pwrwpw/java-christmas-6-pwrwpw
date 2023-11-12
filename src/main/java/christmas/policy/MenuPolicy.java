@@ -43,4 +43,17 @@ public enum MenuPolicy {
     public static boolean isNotValidMenuCount(int menuCount) {
         return menuCount < 0 || menuCount > ChristmasPolicy.MAX_MENU_ITEMS;
     }
+
+    public static boolean isMenuItemInCategory(String menuName, MenuPolicy category) {
+        return category.getMenuItems().stream()
+                .anyMatch(menuItem -> menuItem.getName().equals(menuName));
+    }
+    public static int getMenuPrice(String menuName) {
+        return Arrays.stream(MenuPolicy.values())
+                .flatMap(category -> category.getMenuItems().stream())
+                .filter(menuItem -> menuItem.getName().equals(menuName))
+                .findFirst()
+                .map(MenuItem::getPrice)
+                .orElseThrow(() -> new IllegalArgumentException("메뉴 이름이 유효하지 않습니다: " + menuName));
+    }
 }
