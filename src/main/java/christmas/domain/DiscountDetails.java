@@ -35,7 +35,7 @@ public class DiscountDetails {
     }
 
     public int getTotalDiscount() {
-        return dateBasedDiscount + menuBasedDiscount + starDayDiscount + presentMenuPrice;
+        return dateBasedDiscount + menuBasedDiscount + starDayDiscount;
     }
 
     private int calculatePresentMenuPrice(int totalAmount) {
