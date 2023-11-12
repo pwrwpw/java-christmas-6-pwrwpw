@@ -85,11 +85,9 @@ public class OutputView {
         OutputViewMessages.TOTAL_PRICE_OUTPUT.print(totalPrice);
     }
 
-    public void printEventBadgeMessage() {
+    public void printEventBadgeMessage(String eventBadge) {
         OutputViewMessages.EVENT_BADGE.print(ChristmasPolicy.DECEMBER);
+        System.out.println(eventBadge);
     }
 
-    public void printNoBenefitMessage() {
-        OutputViewMessages.NO_BENEFIT.print();
-    }
 }

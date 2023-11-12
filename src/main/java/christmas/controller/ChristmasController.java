@@ -2,9 +2,11 @@ package christmas.controller;
 
 import christmas.domain.Amount;
 import christmas.domain.DiscountDetails;
+import christmas.domain.EventBadge;
 import christmas.domain.MenuItems;
 import christmas.domain.SelectMenu;
 import christmas.domain.Order;
+import christmas.domain.User;
 import christmas.domain.VisitDate;
 import christmas.exception.domain.visitdate.FormatDayException;
 import christmas.exception.domain.visitdate.InvalidDayException;
@@ -22,6 +24,7 @@ public class ChristmasController {
     private final InputView inputView;
     private final ChristmasDiscountService christmasDiscountService;
     private Order order;
+    private User user;
     private VisitDate visitDate;
     private MenuItems menuItems;
     private DiscountDetails discountDetails;
@@ -42,7 +45,9 @@ public class ChristmasController {
         showPresentMenu();
         showBenefit();
         showTotalBenefitPrice();
+        user = new User(order, new EventBadge(discountDetails.getTotalDiscount() + discountDetails.getPresentMenuPrice()));
         showDiscountAfterTotalPrice();
+        showEventBadge();
     }
 
     private void showWelcomeMessage() {
@@ -137,5 +142,9 @@ public class ChristmasController {
         int discountPrice = discountDetails.getTotalDiscount();
         int discountAfterTotalPrice = totalPrice - discountPrice;
         outputView.printExpectedPaymentPriceMessage(discountAfterTotalPrice);
+    }
+
+    private void showEventBadge() {
+        outputView.printEventBadgeMessage(user.getEventBadge());
     }
 }
