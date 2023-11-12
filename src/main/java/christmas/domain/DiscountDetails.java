@@ -11,11 +11,11 @@ public class DiscountDetails {
     private final int starDayDiscount;
     private final int presentMenuPrice;
 
-    public DiscountDetails(User user, LocalDate orderDate, MenuItems menuName) {
+    public DiscountDetails(Order order, LocalDate orderDate, MenuItems menuName) {
         this.dateBasedDiscount = calculateDateBasedDiscount(orderDate);
         this.menuBasedDiscount = calculateMenuBasedDiscount(orderDate, menuName);
         this.starDayDiscount = calculateStarDayDiscount(orderDate);
-        this.presentMenuPrice = calculatePresentMenuPrice(user.getTotalAmount());
+        this.presentMenuPrice = calculatePresentMenuPrice(order.getTotalAmount());
     }
 
     public int getDateBasedDiscount() {

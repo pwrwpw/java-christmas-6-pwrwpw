@@ -4,7 +4,7 @@ import christmas.domain.Amount;
 import christmas.domain.DiscountDetails;
 import christmas.domain.MenuItems;
 import christmas.domain.SelectMenu;
-import christmas.domain.User;
+import christmas.domain.Order;
 import christmas.domain.VisitDate;
 import christmas.exception.domain.visitdate.FormatDayException;
 import christmas.exception.domain.visitdate.InvalidDayException;
@@ -21,7 +21,7 @@ public class ChristmasController {
     private final OutputView outputView;
     private final InputView inputView;
     private final ChristmasDiscountService christmasDiscountService;
-    private User user;
+    private Order order;
     private VisitDate visitDate;
     private MenuItems menuItems;
     private DiscountDetails discountDetails;
@@ -38,7 +38,7 @@ public class ChristmasController {
         outputView.printEventPreviewMessage(visitDate.getMonth(), visitDate.getDay());
         showOrderMenu();
         Amount totalAmount = showTotalPrice();
-        user = new User(visitDate, menuItems.getItems().get(0), totalAmount);
+        order = new Order(visitDate, menuItems.getItems().get(0), totalAmount);
         showPresentMenu();
         showBenefit();
         showTotalBenefitPrice();
@@ -125,7 +125,7 @@ public class ChristmasController {
     }
 
     private void showDiscountAfterTotalPrice() {
-        int totalPrice = user.getTotalAmount();
+        int totalPrice = order.getTotalAmount();
         int discountPrice = discountDetails.getTotalDiscount();
         int discountAfterTotalPrice = totalPrice - discountPrice;
         outputView.printExpectedPaymentPriceMessage(discountAfterTotalPrice);
