@@ -82,6 +82,7 @@ public class OutputView {
 
     public void printExpectedPaymentPriceMessage(int totalPrice) {
         OutputViewMessages.EXPECTED_PAYMENT.print();
+        OutputViewMessages.TOTAL_PRICE_OUTPUT.print(totalPrice);
     }
 
     public void printEventBadgeMessage() {

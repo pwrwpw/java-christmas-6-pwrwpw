@@ -42,6 +42,7 @@ public class ChristmasController {
         showPresentMenu();
         showBenefit();
         showTotalBenefitPrice();
+        showDiscountAfterTotalPrice();
     }
 
     private void showWelcomeMessage() {
@@ -121,5 +122,12 @@ public class ChristmasController {
         int totalDiscountPrice =  discountDetails.getTotalDiscount();
         int benefitPrice = totalDiscountPrice + discountDetails.getPresentMenuPrice();
         outputView.printTotalBenefitPriceMessage(benefitPrice);
+    }
+
+    private void showDiscountAfterTotalPrice() {
+        int totalPrice = user.getTotalAmount();
+        int discountPrice = discountDetails.getTotalDiscount();
+        int discountAfterTotalPrice = totalPrice - discountPrice;
+        outputView.printExpectedPaymentPriceMessage(discountAfterTotalPrice);
     }
 }
