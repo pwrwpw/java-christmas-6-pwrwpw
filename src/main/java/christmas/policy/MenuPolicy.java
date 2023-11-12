@@ -49,6 +49,7 @@ public enum MenuPolicy {
         return category.getMenuItems().stream()
                 .anyMatch(menuItem -> menuItem.getName().equals(menuName));
     }
+
     public static int getMenuPrice(String menuName) {
         return Arrays.stream(MenuPolicy.values())
                 .flatMap(category -> category.getMenuItems().stream())

@@ -30,7 +30,7 @@ public class Parser {
             }
             String name = selectMenuInfo[0].trim();
             String d = selectMenuInfo[1].trim();
-            if(FormatValidator.isNumber(d)) {
+            if (FormatValidator.isNumber(d)) {
                 throw new InvalidOrderException();
             }
             int quantity = Integer.parseInt(d);

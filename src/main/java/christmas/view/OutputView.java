@@ -43,9 +43,11 @@ public class OutputView {
     public void printPresentMenuMessage() {
         OutputViewMessages.PRESENT_MENU.print();
     }
+
     public void printPresentMenuOutputMessage(String menuName, int menuCount) {
         System.out.println(menuName + " " + menuCount + "개");
     }
+
     public void printPresentMenuOutputMessage(String value) {
         System.out.println(value);
     }
@@ -86,7 +88,7 @@ public class OutputView {
 
     public void printTotalBenefitPriceMessage(int totalPrice) {
         OutputViewMessages.TOTAL_BENEFIT_AMOUNT.print();
-        if(totalPrice == 0) {
+        if (totalPrice == 0) {
             OutputViewMessages.TOTAL_PRICE_OUTPUT.print(totalPrice);
             return;
         }

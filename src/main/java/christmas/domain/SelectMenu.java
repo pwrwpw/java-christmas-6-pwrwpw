@@ -15,6 +15,7 @@ public class SelectMenu {
         validateMenuCount(menuCount);
         this.menuCount = menuCount;
     }
+
     public String getMenuName() {
         return menuName;
     }
@@ -38,8 +39,12 @@ public class SelectMenu {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
         SelectMenu that = (SelectMenu) o;
         return menuCount == that.menuCount &&
                 Objects.equals(menuName, that.menuName);

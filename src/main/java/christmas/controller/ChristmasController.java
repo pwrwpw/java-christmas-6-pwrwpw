@@ -28,7 +28,8 @@ public class ChristmasController {
     private MenuItems menuItems;
     private DiscountDetails discountDetails;
 
-    public ChristmasController(OutputView outputView, InputView inputView, ChristmasDiscountService christmasDiscountService) {
+    public ChristmasController(OutputView outputView, InputView inputView,
+                               ChristmasDiscountService christmasDiscountService) {
         this.outputView = outputView;
         this.inputView = inputView;
         this.christmasDiscountService = christmasDiscountService;
@@ -44,7 +45,8 @@ public class ChristmasController {
         showPresentMenu();
         showBenefit();
         showTotalBenefitPrice();
-        user = new User(order, new EventBadge(discountDetails.getTotalDiscount() + discountDetails.getPresentMenuPrice()));
+        user = new User(order,
+                new EventBadge(discountDetails.getTotalDiscount() + discountDetails.getPresentMenuPrice()));
         showDiscountAfterTotalPrice();
         showEventBadge();
     }

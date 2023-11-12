@@ -20,6 +20,7 @@ public class EventBadge {
         }
         return "없음";
     }
+
     public String getBadgeName() {
         return badgeName;
     }

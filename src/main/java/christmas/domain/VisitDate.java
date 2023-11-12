@@ -18,7 +18,8 @@ public class VisitDate {
     }
 
     private void validateDay() {
-        if (month == ChristmasPolicy.DECEMBER && (day < ChristmasPolicy.DEC_MINIMUM_DAY || day > ChristmasPolicy.DEC_MAXIMUM_DAY)) {
+        if (month == ChristmasPolicy.DECEMBER && (day < ChristmasPolicy.DEC_MINIMUM_DAY
+                || day > ChristmasPolicy.DEC_MAXIMUM_DAY)) {
             throw new InvalidDayException();
         }
     }
