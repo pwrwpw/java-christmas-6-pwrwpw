@@ -3,7 +3,6 @@ package christmas.domain;
 import christmas.exception.domain.visitdate.InvalidDayException;
 import christmas.policy.ChristmasPolicy;
 import christmas.utils.Parser;
-import java.time.LocalDate;
 
 public class VisitDate {
 
@@ -30,9 +29,5 @@ public class VisitDate {
 
     public int getMonth() {
         return month;
-    }
-
-    public LocalDate getLocalDate() {
-        return LocalDate.of(year, month, day);
     }
 }
