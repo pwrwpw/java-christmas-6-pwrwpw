@@ -1,5 +1,6 @@
 package christmas.view;
 
+import christmas.domain.DiscountDetails;
 import christmas.policy.ChristmasPolicy;
 
 public class OutputView {
@@ -34,13 +35,9 @@ public class OutputView {
         OutputViewMessages.ORDER_MENU.print();
     }
 
-    public void printTotalPriceMessage() {
-        OutputViewMessages.TOTAL_PRICE.print();
-    }
-
     public void printTotalPriceOutputMessage(int totalPrice) {
+        OutputViewMessages.TOTAL_PRICE.print();
         OutputViewMessages.TOTAL_PRICE_OUTPUT.print(totalPrice);
-        System.out.println();
     }
 
     public void printPresentMenuMessage() {
@@ -48,11 +45,29 @@ public class OutputView {
     }
     public void printPresentMenuOutputMessage(String menuName, int menuCount) {
         System.out.println(menuName + " " + menuCount + "개");
-        System.out.println();
     }
     public void printPresentMenuOutputMessage(String value) {
         System.out.println(value);
-        System.out.println();
+    }
+
+    public void printOrderMenuItem(String menuName, int count) {
+        System.out.println(menuName + " " + count + "개");
+    }
+
+    public void displayDiscountDetails(DiscountDetails discountDetails) {
+        // 할인 정보 출력 로직
+        if (discountDetails.getDateBasedDiscount() > 0) {
+            System.out.println("크리스마스 디데이 할인: -" + discountDetails.getDateBasedDiscount() + "원");
+        }
+        if (discountDetails.getMenuBasedDiscount() > 0) {
+            System.out.println("메뉴 기반 할인: -" + discountDetails.getMenuBasedDiscount() + "원");
+        }
+        if (discountDetails.getStarDayDiscount() > 0) {
+            System.out.println("특별 할인: -" + discountDetails.getStarDayDiscount() + "원");
+        }
+        if (discountDetails.getPresentMenuPrice() > 0) {
+            System.out.println("선물 메뉴 가격: -" + discountDetails.getPresentMenuPrice() + "원");
+        }
     }
 
     public void printBenefitMessage() {
