@@ -11,6 +11,7 @@ public enum OutputViewMessages {
     ORDER_MENU("<주문 메뉴>"),
     TOTAL_PRICE("<할인 전 총주문 금액>"),
     TOTAL_PRICE_OUTPUT("%d원"),
+    TOTAL_BENEFIT_OUTPUT("-%d원"),
     PRESENT_MENU("<증정 메뉴>"),
     BENEFIT_DETAILS("<혜택 내역>"),
     TOTAL_BENEFIT_AMOUNT("<총혜택 금액>"),
