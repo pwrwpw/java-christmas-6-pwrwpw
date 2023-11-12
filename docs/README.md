@@ -1,6 +1,65 @@
-## 크리스마스 프로모션
+## 🎄 크리스마스 프로모션
 
-## 프로그램 흐름 정리
+### 🍽️ 크리스마스 프로모션 프로그램 개요
+- **목적**: 이 프로그램은 우테코 식당에서 제공하는 12월 크리스마스 이벤트의 다양한 할인 혜택을 계산하여 사용자에게 제공하는 것을 목표로 합니다.
+- **기능**: 사용자가 입력한 방문 날짜와 주문 메뉴에 따라 할인 혜택을 계산하고, 예상 주문 금액과 증정품 정보를 제공합니다.
+
+### 💰 이벤트 내용
+- 크리스마스 디데이 할인 이벤트
+  - 1일부터 25일까지 날마다 100원씩 할인
+  - 1일: 1,000원, 2일: 1,100원, ..., 25일: 3,400원 할인
+- 평일 할인(일요일~목요일)
+  - 디저트 메뉴 1개당 2,023원 할인
+- 주말 할인(금요일, 토요일)
+  - 메인 메뉴 1개당 2,023원 할인
+- 특별 할인
+  - 이벤트 달력에 별이 있으면 총주문 금액에서 1,000원 할인
+- 증정 이벤트
+  - 할인 전 총주문 금액이 12만 원 이상일 때, 샴페인 1개 증정
+- 이벤트 기간
+  - 2023.12.1 ~ 2023.12.31 동안 적용
+
+### 📝 크리스마스 프로모션 프로그램 실행 방법
+- **사전 준비**: [Java 17](https://www.oracle.com/java/technologies/downloads/#java17) 설치
+- **실행 방법**: [src/main/java/Application.java](https://github.com/pwrwpw/java-christmas-6-pwrwpw/blob/main/src/main/java/christmas/Application.java) 파일을 실행
+- **입력 방법**: 콘솔 창에 출력되는 메시지에 따라 입력
+- **프로그램 종료**: "<12월 이벤트 배지>" 출력 이후 프로그램 종료
+
+### 📦 크리스마스 프로모션 프로그램 패키지 구조
+```
+├── Application.java
+├── controller
+│   └── ChristmasController.java
+├── domain
+│   ├── Amount.java
+│   ├── DiscountDetails.java
+│   ├── EventBadge.java
+│   ├── MenuItem.java
+│   ├── MenuItems.java
+│   ├── Order.java
+│   ├── SelectMenu.java
+│   ├── User.java
+│   └── VisitDate.java
+├── exception
+│   └── domain
+│       └── visitdate
+│           ├── InvalidDayException.java
+│           └── InvalidOrderException.java
+├── policy
+│   ├── ChristmasPolicy.java
+│   └── MenuPolicy.java
+├── service
+│   └── ChristmasDiscountService.java
+├── utils
+│   ├── FormatValidator.java
+│   ├── Parser.java
+│   └── StringValidator.java
+└── view
+    ├── InputView.java
+    ├── OutputView.java
+    └── OutputViewMessages.java
+```
+## 📜 프로그램 흐름 정리
 - [x] "안녕하세요! 우테코 식당 12월 이벤트 플래너입니다." 출력
 - [x] "12월 중 식당 예상 방문 날짜는 언제인가요? (숫자만 입력해 주세요!)" 출력
 - [x] 사용자 입력 받기
