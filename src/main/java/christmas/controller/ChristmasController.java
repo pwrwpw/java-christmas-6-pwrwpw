@@ -1,6 +1,7 @@
 package christmas.controller;
 
 import christmas.domain.Amount;
+import christmas.domain.DiscountDetails;
 import christmas.domain.MenuItem;
 import christmas.domain.MenuItems;
 import christmas.domain.SelectMenu;
@@ -11,7 +12,7 @@ import christmas.exception.domain.visitdate.InvalidDayException;
 import christmas.exception.domain.visitdate.InvalidOrderException;
 import christmas.policy.ChristmasPolicy;
 import christmas.policy.MenuPolicy;
-import christmas.service.OrderService;
+import christmas.service.ChristmasDiscountService;
 import christmas.utils.Parser;
 import christmas.view.InputView;
 import christmas.view.OutputView;
@@ -21,23 +22,26 @@ public class ChristmasController {
 
     private final OutputView outputView;
     private final InputView inputView;
+    private final ChristmasDiscountService christmasDiscountService;
+    private User user;
     private VisitDate visitDate;
     private MenuItems menuItems;
-    private User user;
 
-    public ChristmasController(OutputView outputView, InputView inputView) {
+    public ChristmasController(OutputView outputView, InputView inputView, ChristmasDiscountService christmasDiscountService) {
         this.outputView = outputView;
         this.inputView = inputView;
+        this.christmasDiscountService = christmasDiscountService;
     }
 
     public void run() {
         showWelcomeMessage();
         initUserInput();
         outputView.printEventPreviewMessage(visitDate.getMonth(), visitDate.getDay());
-        showOrderMenu(menuItems);
-        Amount totalAmount = showTotalPrice(menuItems);
-        user = saveUserOrder(visitDate, menuItems.getItems().get(0), totalAmount);
+        showOrderMenu();
+        Amount totalAmount = showTotalPrice();
+        user = new User(visitDate, menuItems.getItems().get(0), totalAmount);
         showPresentMenu();
+        showBenefit();
     }
 
     private void showWelcomeMessage() {
@@ -46,14 +50,14 @@ public class ChristmasController {
     }
 
     private void initUserInput() {
-        visitDate = getVisitDate();
-        menuItems = getMenuItems();
+        this.visitDate = getVisitDate();
+        this.menuItems = getMenuItems();
     }
 
     private VisitDate getVisitDate() {
         try {
             String day = inputView.getExpectedVisitDay();
-            return new VisitDate(ChristmasPolicy.DECEMBER, day);
+            return new VisitDate(ChristmasPolicy.EVENT_YEAR,ChristmasPolicy.DECEMBER, day);
         } catch (FormatDayException | InvalidDayException e) {
             System.out.println(e.getMessage());
             return getVisitDate();
@@ -77,27 +81,22 @@ public class ChristmasController {
         outputView.printMaxMenuItemsNotice();
     }
 
-    private void showOrderMenu(MenuItems menuItems) {
+    private void showOrderMenu() {
         outputView.printOrderMenuMessage();
         for (SelectMenu item : menuItems.getItems()) {
-            System.out.println(item.getMenuName() + " " + item.getMenuCount() + "개");
+            outputView.printOrderMenuItem(item.getMenuName(), item.getMenuCount());
         }
     }
 
-    private Amount showTotalPrice(MenuItems menuItems) {
-        outputView.printTotalPriceMessage();
-        int totalPrice = 0;
-
-        for (SelectMenu item : menuItems.getItems()) {
-            int price = findMenuPrice(item.getMenuName());
-            totalPrice += price * item.getMenuCount();
-        }
+    private Amount showTotalPrice() {
+        int totalPrice = menuItems.getItems().stream()
+                .mapToInt(item -> item.getMenuCount() * findMenuPrice(item.getMenuName()))
+                .sum();
 
         Amount totalAmount = new Amount(totalPrice);
         outputView.printTotalPriceOutputMessage(totalAmount.value());
         return totalAmount;
     }
-
 
     private int findMenuPrice(String menuName) {
         return Arrays.stream(MenuPolicy.values())
@@ -108,16 +107,18 @@ public class ChristmasController {
                 .orElseThrow(InvalidOrderException::new);
     }
 
-    private User saveUserOrder(VisitDate visitDate, SelectMenu selectMenu, Amount totalPrice) {
-        return new User(visitDate, selectMenu, totalPrice);
-    }
-
     private void showPresentMenu() {
         outputView.printPresentMenuMessage();
-        if (user.getTotalAmount() > 120_000) {
-            outputView.printPresentMenuOutputMessage(ChristmasPolicy.PRESENT,ChristmasPolicy.PRESENT_COUNT);
-            return;
-        }
+        if (user.getTotalAmount() > ChristmasPolicy.PRESENT_THRESHOLD_AMOUNT) {
+            outputView.printPresentMenuOutputMessage(ChristmasPolicy.PRESENT_NAME, ChristmasPolicy.PRESENT_QUANTITY);
+        } else {
             outputView.printPresentMenuOutputMessage(ChristmasPolicy.NO);
+        }
+    }
+
+    private void showBenefit() {
+        outputView.printBenefitMessage();
+        DiscountDetails discountDetails = christmasDiscountService.applyDiscount(user, menuItems);
+        outputView.displayDiscountDetails(discountDetails);
     }
 }
