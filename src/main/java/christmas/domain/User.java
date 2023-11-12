@@ -4,7 +4,7 @@ public class User {
 
     private final VisitDate visitDate;
     private final SelectMenu selectMenu;
-    private Amount totalAmount;
+    private final Amount totalAmount;
 
     public User(VisitDate visitDate, SelectMenu selectMenu, Amount totalAmount) {
         this.visitDate = visitDate;
@@ -18,9 +18,5 @@ public class User {
 
     public int getTotalAmount() {
         return totalAmount.value();
-    }
-
-    public void salesAmount(int discount) {
-        totalAmount = new Amount(totalAmount.value() - discount);
     }
 }
