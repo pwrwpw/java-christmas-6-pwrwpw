@@ -55,18 +55,25 @@ public class OutputView {
     }
 
     public void displayDiscountDetails(DiscountDetails discountDetails) {
-        // 할인 정보 출력 로직
+        boolean isDiscounted = true;
         if (discountDetails.getDateBasedDiscount() > 0) {
+            isDiscounted = false;
             System.out.println("크리스마스 디데이 할인: -" + discountDetails.getDateBasedDiscount() + "원");
         }
         if (discountDetails.getMenuBasedDiscount() > 0) {
+            isDiscounted = false;
             System.out.println("메뉴 기반 할인: -" + discountDetails.getMenuBasedDiscount() + "원");
         }
         if (discountDetails.getStarDayDiscount() > 0) {
+            isDiscounted = false;
             System.out.println("특별 할인: -" + discountDetails.getStarDayDiscount() + "원");
         }
         if (discountDetails.getPresentMenuPrice() > 0) {
+            isDiscounted = false;
             System.out.println("선물 메뉴 가격: -" + discountDetails.getPresentMenuPrice() + "원");
+        }
+        if (isDiscounted) {
+            System.out.println("없음");
         }
     }
 
@@ -76,6 +83,10 @@ public class OutputView {
 
     public void printTotalBenefitPriceMessage(int totalPrice) {
         OutputViewMessages.TOTAL_BENEFIT_AMOUNT.print();
+        if(totalPrice == 0) {
+            OutputViewMessages.TOTAL_PRICE_OUTPUT.print(totalPrice);
+            return;
+        }
         OutputViewMessages.TOTAL_BENEFIT_OUTPUT.print(totalPrice);
 
     }
