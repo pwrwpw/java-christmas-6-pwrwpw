@@ -35,10 +35,10 @@ public class ChristmasController {
     public void run() {
         showWelcomeMessage();
         initUserInput();
-        outputView.printEventPreviewMessage(visitDate.getMonth(), visitDate.getDay());
+        showEventPreview();
         showOrderMenu();
         Amount totalAmount = showTotalPrice();
-        order = new Order(visitDate, menuItems.getItems().get(0), totalAmount);
+        createOrder(totalAmount);
         showPresentMenu();
         showBenefit();
         showTotalBenefitPrice();
@@ -51,14 +51,18 @@ public class ChristmasController {
     }
 
     private void initUserInput() {
-        this.visitDate = getVisitDate();
-        this.menuItems = getMenuItems();
+        visitDate = getVisitDate();
+        menuItems = getMenuItems();
+    }
+
+    private void showEventPreview() {
+        outputView.printEventPreviewMessage(visitDate.getMonth(), visitDate.getDay());
     }
 
     private VisitDate getVisitDate() {
         try {
             String day = inputView.getExpectedVisitDay();
-            return new VisitDate(ChristmasPolicy.EVENT_YEAR,ChristmasPolicy.DECEMBER, day);
+            return new VisitDate(ChristmasPolicy.EVENT_YEAR, ChristmasPolicy.DECEMBER, day);
         } catch (FormatDayException | InvalidDayException e) {
             System.out.println(e.getMessage());
             return getVisitDate();
@@ -103,9 +107,13 @@ public class ChristmasController {
         return MenuPolicy.getMenuPrice(menuName);
     }
 
+    private void createOrder(Amount totalAmount) {
+        order = new Order(visitDate, menuItems.getItems().get(0), totalAmount);
+    }
+
     private void showPresentMenu() {
         outputView.printPresentMenuMessage();
-        if (user.getTotalAmount() > ChristmasPolicy.PRESENT_THRESHOLD_AMOUNT) {
+        if (order.getTotalAmount() > ChristmasPolicy.PRESENT_THRESHOLD_AMOUNT) {
             outputView.printPresentMenuOutputMessage(ChristmasPolicy.PRESENT_NAME, ChristmasPolicy.PRESENT_QUANTITY);
         } else {
             outputView.printPresentMenuOutputMessage(ChristmasPolicy.NO);
@@ -114,12 +122,12 @@ public class ChristmasController {
 
     private void showBenefit() {
         outputView.printBenefitMessage();
-        discountDetails = christmasDiscountService.applyDiscount(user, menuItems);
+        discountDetails = christmasDiscountService.applyDiscount(order, menuItems);
         outputView.displayDiscountDetails(discountDetails);
     }
 
     private void showTotalBenefitPrice() {
-        int totalDiscountPrice =  discountDetails.getTotalDiscount();
+        int totalDiscountPrice = discountDetails.getTotalDiscount();
         int benefitPrice = totalDiscountPrice + discountDetails.getPresentMenuPrice();
         outputView.printTotalBenefitPriceMessage(benefitPrice);
     }
