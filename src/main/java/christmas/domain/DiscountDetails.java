@@ -10,6 +10,7 @@ public class DiscountDetails {
     private final int menuBasedDiscount;
     private final int starDayDiscount;
     private final int presentMenuPrice;
+    private boolean isWeek;
 
     public DiscountDetails(Order order, LocalDate orderDate, MenuItems menuName) {
         this.dateBasedDiscount = calculateDateBasedDiscount(orderDate);
@@ -36,6 +37,10 @@ public class DiscountDetails {
 
     public int getTotalDiscount() {
         return dateBasedDiscount + menuBasedDiscount + starDayDiscount;
+    }
+
+    public boolean getIsWeek() {
+        return isWeek;
     }
 
     private int calculatePresentMenuPrice(int totalAmount) {
@@ -66,20 +71,47 @@ public class DiscountDetails {
         int menuDiscount = 0;
         DayOfWeek dayOfWeek = orderDate.getDayOfWeek();
 
-        for (SelectMenu menuItem : menuItems.getItems()) {
-            String menuName = menuItem.getMenuName();
-            int count = menuItem.getMenuCount();
-
-            if (!isWeekend(dayOfWeek) && MenuPolicy.isMenuItemInCategory(menuName, MenuPolicy.DESSERT)) {
-                menuDiscount += 2023 * count;
-            }
-            if (isWeekend(dayOfWeek) && MenuPolicy.isMenuItemInCategory(menuName, MenuPolicy.MAIN)) {
-                menuDiscount += 2023 * count;
-            }
+        if (!isWeekend(dayOfWeek)) {
+            menuDiscount += calculateWeekDiscount(menuItems);
+            isWeek = true;
+        } else {
+            menuDiscount += calculateWeekendDiscount(menuItems);
+            isWeek = false;
         }
 
         return menuDiscount;
     }
+
+    private int calculateWeekDiscount(MenuItems menuItems) {
+        int weekDiscount = 0;
+
+        for (SelectMenu menuItem : menuItems.getItems()) {
+            String menuName = menuItem.getMenuName();
+            int count = menuItem.getMenuCount();
+
+            if (MenuPolicy.isMenuItemInCategory(menuName, MenuPolicy.DESSERT)) {
+                weekDiscount += 2023 * count;
+            }
+        }
+
+        return weekDiscount;
+    }
+
+    private int calculateWeekendDiscount(MenuItems menuItems) {
+        int weekendDiscount = 0;
+
+        for (SelectMenu menuItem : menuItems.getItems()) {
+            String menuName = menuItem.getMenuName();
+            int count = menuItem.getMenuCount();
+
+            if (MenuPolicy.isMenuItemInCategory(menuName, MenuPolicy.MAIN)) {
+                weekendDiscount += 2023 * count;
+            }
+        }
+
+        return weekendDiscount;
+    }
+
 
     private boolean isWeekend(DayOfWeek day) {
         return day == DayOfWeek.SATURDAY || day == DayOfWeek.SUNDAY;

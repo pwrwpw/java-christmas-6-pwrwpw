@@ -60,9 +60,12 @@ public class OutputView {
             isDiscounted = false;
             System.out.println("크리스마스 디데이 할인: -" + discountDetails.getDateBasedDiscount() + "원");
         }
-        if (discountDetails.getMenuBasedDiscount() > 0) {
+        if (discountDetails.getMenuBasedDiscount() > 0 && discountDetails.getIsWeek()) {
             isDiscounted = false;
-            System.out.println("메뉴 기반 할인: -" + discountDetails.getMenuBasedDiscount() + "원");
+            System.out.println("평일 할인: -" + discountDetails.getMenuBasedDiscount() + "원");
+        }
+        if (discountDetails.getMenuBasedDiscount() > 0 && !discountDetails.getIsWeek()) {
+            System.out.println("주말 할인: -" + discountDetails.getMenuBasedDiscount() + "원");
         }
         if (discountDetails.getStarDayDiscount() > 0) {
             isDiscounted = false;
