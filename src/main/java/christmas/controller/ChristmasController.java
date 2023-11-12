@@ -2,7 +2,6 @@ package christmas.controller;
 
 import christmas.domain.Amount;
 import christmas.domain.DiscountDetails;
-import christmas.domain.MenuItem;
 import christmas.domain.MenuItems;
 import christmas.domain.SelectMenu;
 import christmas.domain.User;
@@ -16,7 +15,6 @@ import christmas.service.ChristmasDiscountService;
 import christmas.utils.Parser;
 import christmas.view.InputView;
 import christmas.view.OutputView;
-import java.util.Arrays;
 
 public class ChristmasController {
 
@@ -26,6 +24,7 @@ public class ChristmasController {
     private User user;
     private VisitDate visitDate;
     private MenuItems menuItems;
+    private DiscountDetails discountDetails;
 
     public ChristmasController(OutputView outputView, InputView inputView, ChristmasDiscountService christmasDiscountService) {
         this.outputView = outputView;
@@ -42,6 +41,7 @@ public class ChristmasController {
         user = new User(visitDate, menuItems.getItems().get(0), totalAmount);
         showPresentMenu();
         showBenefit();
+        showTotalBenefitPrice();
     }
 
     private void showWelcomeMessage() {
@@ -113,7 +113,13 @@ public class ChristmasController {
 
     private void showBenefit() {
         outputView.printBenefitMessage();
-        DiscountDetails discountDetails = christmasDiscountService.applyDiscount(user, menuItems);
+        discountDetails = christmasDiscountService.applyDiscount(user, menuItems);
         outputView.displayDiscountDetails(discountDetails);
+    }
+
+    private void showTotalBenefitPrice() {
+        int totalDiscountPrice =  discountDetails.getTotalDiscount();
+        int benefitPrice = totalDiscountPrice + discountDetails.getPresentMenuPrice();
+        outputView.printTotalBenefitPriceMessage(benefitPrice);
     }
 }

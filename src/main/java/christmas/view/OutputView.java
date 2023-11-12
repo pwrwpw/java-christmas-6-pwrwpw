@@ -74,11 +74,13 @@ public class OutputView {
         OutputViewMessages.BENEFIT_DETAILS.print();
     }
 
-    public void printTotalBenefitPriceMessage() {
+    public void printTotalBenefitPriceMessage(int totalPrice) {
         OutputViewMessages.TOTAL_BENEFIT_AMOUNT.print();
+        OutputViewMessages.TOTAL_BENEFIT_OUTPUT.print(totalPrice);
+
     }
 
-    public void printExpectedPaymentPriceMessage() {
+    public void printExpectedPaymentPriceMessage(int totalPrice) {
         OutputViewMessages.EXPECTED_PAYMENT.print();
     }
 
