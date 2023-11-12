@@ -1,6 +1,7 @@
 package christmas.policy;
 
 import christmas.domain.MenuItem;
+import christmas.exception.domain.visitdate.InvalidOrderException;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -54,6 +55,6 @@ public enum MenuPolicy {
                 .filter(menuItem -> menuItem.getName().equals(menuName))
                 .findFirst()
                 .map(MenuItem::getPrice)
-                .orElseThrow(() -> new IllegalArgumentException("메뉴 이름이 유효하지 않습니다: " + menuName));
+                .orElseThrow(InvalidOrderException::new);
     }
 }

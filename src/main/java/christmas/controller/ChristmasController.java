@@ -99,12 +99,7 @@ public class ChristmasController {
     }
 
     private int findMenuPrice(String menuName) {
-        return Arrays.stream(MenuPolicy.values())
-                .flatMap(menuPolicy -> menuPolicy.getMenuItems().stream())
-                .filter(menuItem -> menuItem.getName().equals(menuName))
-                .findFirst()
-                .map(MenuItem::getPrice)
-                .orElseThrow(InvalidOrderException::new);
+        return MenuPolicy.getMenuPrice(menuName);
     }
 
     private void showPresentMenu() {
