@@ -1,8 +1,6 @@
 package christmas.controller;
 
 import christmas.domain.DiscountDetails;
-import christmas.domain.EventBadge;
-import christmas.domain.Order;
 import christmas.domain.SelectMenus;
 import christmas.domain.User;
 import christmas.domain.VisitDate;
@@ -35,12 +33,12 @@ public class ChristmasController {
 
         showEventPreview(visitDate);
         showOrderMenu(selectMenus);
-        showTotalPrice(user.getOrder().getTotalAmount());
-        showPresentMenu(user.getOrder());
+        showTotalPrice(user.getTotalOrderAmount());
+        showPresentMenu(user);
         showBenefit(user.getDiscountDetails());
-        showTotalBenefit(user.getDiscountDetails());
-        showDiscountAfterTotalPrice(user.getOrder(), user.getDiscountDetails());
-        showEventBadge(user.getEventBadge());
+        showTotalBenefit(user);
+        showDiscountAfterTotalPrice(user);
+        showEventBadge(user.getEventBadgeName());
     }
 
     private void showWelcomeMessage() {
@@ -90,9 +88,9 @@ public class ChristmasController {
         outputView.printTotalPriceOutputMessage(totalAmount);
     }
 
-    private void showPresentMenu(Order order) {
+    private void showPresentMenu(User user) {
         outputView.printPresentMenuMessage();
-        if (order.isEligibleForPresent()) {
+        if (user.isOrderEligibleForPresent()) {
             outputView.printPresentMenuOutputMessage(ChristmasPolicy.PRESENT_NAME, ChristmasPolicy.PRESENT_QUANTITY);
             return;
         }
@@ -104,15 +102,13 @@ public class ChristmasController {
         outputView.displayDiscountDetails(discountDetails);
     }
 
-    private void showTotalBenefit(DiscountDetails discountDetails) {
-        int totalDiscount = discountDetails.getTotalDiscount();
-        int presentMenuPrice = discountDetails.getPresentMenuPrice();
-        int totalBenefit = totalDiscount + presentMenuPrice;
+    private void showTotalBenefit(User user) {
+        int totalBenefit = user.getTotalBenefit();
         outputView.printTotalBenefitPriceMessage(totalBenefit);
     }
 
-    private void showDiscountAfterTotalPrice(Order order, DiscountDetails discountDetails) {
-        int finalPayment = order.calculateFinalPayment(discountDetails.getTotalDiscount());
+    private void showDiscountAfterTotalPrice(User user) {
+        int finalPayment = user.calculateFinalPayment();
         outputView.printExpectedPaymentPriceMessage(finalPayment);
     }
 

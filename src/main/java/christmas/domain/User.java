@@ -12,11 +12,23 @@ public class User {
         this.discountDetails = discountDetails;
     }
 
-    public Order getOrder() {
-        return order;
+    public boolean isOrderEligibleForPresent() {
+        return order.isEligibleForPresent();
     }
 
-    public String getEventBadge() {
+    public int calculateFinalPayment() {
+        return order.calculateFinalPayment(discountDetails.getTotalDiscount());
+    }
+
+    public int getTotalOrderAmount() {
+        return order.getTotalAmount();
+    }
+
+    public int getTotalBenefit() {
+        return discountDetails.getTotalDiscount() + discountDetails.getPresentMenuPrice();
+    }
+
+    public String getEventBadgeName() {
         return eventBadge.getBadgeName();
     }
 
