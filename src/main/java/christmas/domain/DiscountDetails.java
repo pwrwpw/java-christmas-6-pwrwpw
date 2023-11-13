@@ -45,7 +45,7 @@ public class DiscountDetails {
 
     private int calculatePresentMenuPrice(int totalAmount) {
         String presentMenuName = determinePresentMenuName(totalAmount);
-        if (!presentMenuName.equals(ChristmasPolicy.NO)) {
+        if (!presentMenuName.equals(ChristmasPolicy.NO_PRESENT)) {
             return MenuPolicy.getMenuPrice(presentMenuName);
         }
         return 0;
@@ -55,7 +55,7 @@ public class DiscountDetails {
         if (totalAmount > ChristmasPolicy.PRESENT_THRESHOLD_AMOUNT) {
             return ChristmasPolicy.PRESENT_NAME;
         }
-        return ChristmasPolicy.NO;
+        return ChristmasPolicy.NO_PRESENT;
     }
 
 
