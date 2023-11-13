@@ -65,7 +65,7 @@ public class ChristmasController {
     private SelectMenus getSelectMenus() {
         try {
             String orderMenu = inputView.getOrderMenu();
-            return Parser.parseMenuItems(Parser.splitMenuItems(orderMenu));
+            return SelectMenus.from(Parser.splitMenuItems(orderMenu));
         } catch (InvalidOrderException e) {
             outputView.printErrorMessage(e.getMessage());
             return getSelectMenus();
