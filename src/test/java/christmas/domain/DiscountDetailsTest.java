@@ -16,7 +16,7 @@ class DiscountDetailsTest {
     private DiscountDetails discountDetails;
 
     @BeforeEach
-    void 초기화() {
+    void setUp() {
         VisitDate visitDate = new VisitDate(ChristmasPolicy.EVENT_YEAR, ChristmasPolicy.DECEMBER, "25");
         List<SelectMenu> selectMenu = List.of(
                 new SelectMenu("티본스테이크", 1),
