@@ -1,16 +1,13 @@
 package christmas.utils;
 
-import christmas.domain.SelectMenus;
-import christmas.domain.SelectMenu;
 import christmas.exception.domain.visitdate.InvalidOrderException;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 public class Parser {
 
     public static int parseInteger(String input) {
-        if(FormatValidator.isNumber(input)) {
+        if(FormatValidator.isNotNumber(input)) {
             throw new InvalidOrderException();
         }
         return Integer.parseInt(input);
