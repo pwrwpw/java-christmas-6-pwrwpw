@@ -1,7 +1,5 @@
 package christmas.domain;
 
-import java.util.List;
-
 public class User {
 
     private final Order order;

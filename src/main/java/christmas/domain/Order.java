@@ -1,7 +1,6 @@
 package christmas.domain;
 
 import christmas.policy.ChristmasPolicy;
-import java.util.List;
 
 public class Order {
 
