@@ -86,7 +86,7 @@ public class ChristmasController {
     private void showOrderMenu(SelectMenus selectMenus) {
         outputView.printOrderMenuMessage();
         selectMenus.items().forEach(item ->
-                outputView.printOrderMenuItem(item.getMenuName(), item.getMenuCount())
+                outputView.printOrderMenuItem(item.menuName(), item.menuCount())
         );
     }
 

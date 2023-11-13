@@ -14,7 +14,7 @@ public class OrderService {
 
     public Amount calculateTotalPrice(SelectMenus selectMenus) {
         int totalPrice = selectMenus.items().stream()
-                .mapToInt(item -> item.getMenuCount() * MenuPolicy.getMenuPrice(item.getMenuName()))
+                .mapToInt(item -> item.menuCount() * MenuPolicy.getMenuPrice(item.menuName()))
                 .sum();
         return new Amount(totalPrice);
     }

@@ -4,24 +4,13 @@ import christmas.exception.domain.visitdate.InvalidOrderException;
 import christmas.policy.MenuPolicy;
 import java.util.Objects;
 
-public class SelectMenu {
-
-    private String menuName;
-    private int menuCount;
+public record SelectMenu(String menuName, int menuCount) {
 
     public SelectMenu(String menuName, int menuCount) {
         validateMenuName(menuName);
         this.menuName = menuName;
         validateMenuCount(menuCount);
         this.menuCount = menuCount;
-    }
-
-    public String getMenuName() {
-        return menuName;
-    }
-
-    public int getMenuCount() {
-        return menuCount;
     }
 
 
@@ -50,8 +39,4 @@ public class SelectMenu {
                 Objects.equals(menuName, that.menuName);
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(menuName, menuCount);
-    }
 }

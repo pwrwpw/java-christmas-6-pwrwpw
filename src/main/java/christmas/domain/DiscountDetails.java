@@ -86,8 +86,8 @@ public class DiscountDetails {
         int weekDiscount = 0;
 
         for (SelectMenu menuItem : menuItems.items()) {
-            String menuName = menuItem.getMenuName();
-            int count = menuItem.getMenuCount();
+            String menuName = menuItem.menuName();
+            int count = menuItem.menuCount();
 
             if (MenuPolicy.isMenuItemInCategory(menuName, MenuPolicy.DESSERT)) {
                 weekDiscount += 2023 * count;
@@ -101,8 +101,8 @@ public class DiscountDetails {
         int weekendDiscount = 0;
 
         for (SelectMenu menuItem : menuItems.items()) {
-            String menuName = menuItem.getMenuName();
-            int count = menuItem.getMenuCount();
+            String menuName = menuItem.menuName();
+            int count = menuItem.menuCount();
 
             if (MenuPolicy.isMenuItemInCategory(menuName, MenuPolicy.MAIN)) {
                 weekendDiscount += 2023 * count;
