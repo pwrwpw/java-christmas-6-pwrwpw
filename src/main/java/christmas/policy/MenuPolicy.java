@@ -42,7 +42,7 @@ public enum MenuPolicy {
     }
 
     public static boolean isNotValidMenuCount(int menuCount) {
-        return menuCount < 0 || menuCount > ChristmasPolicy.MAX_MENU_ITEMS;
+        return menuCount <= 0 || menuCount > ChristmasPolicy.MAX_MENU_ITEMS;
     }
 
     public static boolean isMenuItemInCategory(String menuName, MenuPolicy category) {
