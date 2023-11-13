@@ -6,19 +6,13 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-public class MenuItems {
-    private final List<SelectMenu> items;
-
-    public MenuItems(List<SelectMenu> items) {
+public record SelectMenus(List<SelectMenu> items) {
+    public SelectMenus {
         validateDuplicate(items);
-        this.items = items;
     }
 
-    public void addItem(SelectMenu item) {
-        items.add(item);
-    }
-
-    public List<SelectMenu> getItems() {
+    @Override
+    public List<SelectMenu> items() {
         return Collections.unmodifiableList(items);
     }
 

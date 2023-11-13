@@ -1,6 +1,6 @@
 package christmas.utils;
 
-import christmas.domain.MenuItems;
+import christmas.domain.SelectMenus;
 import christmas.domain.SelectMenu;
 import christmas.exception.domain.visitdate.InvalidOrderException;
 import java.util.ArrayList;
@@ -20,7 +20,7 @@ public class Parser {
         return Arrays.asList(parsedItems);
     }
 
-    public static MenuItems parseMenuItems(List<String> splitMenuItems) {
+    public static SelectMenus parseMenuItems(List<String> splitMenuItems) {
         List<SelectMenu> parsedItems = new ArrayList<>();
 
         for (String selectMenu : splitMenuItems) {
@@ -36,7 +36,7 @@ public class Parser {
             int quantity = Integer.parseInt(d);
             parsedItems.add(new SelectMenu(name, quantity));
         }
-        return new MenuItems(parsedItems);
+        return new SelectMenus(parsedItems);
     }
 
 }

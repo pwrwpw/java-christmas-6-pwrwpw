@@ -12,7 +12,7 @@ public class DiscountDetails {
     private final int presentMenuPrice;
     private boolean isWeek;
 
-    public DiscountDetails(Order order, LocalDate orderDate, MenuItems menuName) {
+    public DiscountDetails(Order order, LocalDate orderDate, SelectMenus menuName) {
         this.dateBasedDiscount = calculateDateBasedDiscount(orderDate);
         this.menuBasedDiscount = calculateMenuBasedDiscount(orderDate, menuName);
         this.starDayDiscount = calculateStarDayDiscount(orderDate);
@@ -67,7 +67,7 @@ public class DiscountDetails {
         return 0;
     }
 
-    private int calculateMenuBasedDiscount(LocalDate orderDate, MenuItems menuItems) {
+    private int calculateMenuBasedDiscount(LocalDate orderDate, SelectMenus menuItems) {
         int menuDiscount = 0;
         DayOfWeek dayOfWeek = orderDate.getDayOfWeek();
 
@@ -82,10 +82,10 @@ public class DiscountDetails {
         return menuDiscount;
     }
 
-    private int calculateWeekDiscount(MenuItems menuItems) {
+    private int calculateWeekDiscount(SelectMenus menuItems) {
         int weekDiscount = 0;
 
-        for (SelectMenu menuItem : menuItems.getItems()) {
+        for (SelectMenu menuItem : menuItems.items()) {
             String menuName = menuItem.getMenuName();
             int count = menuItem.getMenuCount();
 
@@ -97,10 +97,10 @@ public class DiscountDetails {
         return weekDiscount;
     }
 
-    private int calculateWeekendDiscount(MenuItems menuItems) {
+    private int calculateWeekendDiscount(SelectMenus menuItems) {
         int weekendDiscount = 0;
 
-        for (SelectMenu menuItem : menuItems.getItems()) {
+        for (SelectMenu menuItem : menuItems.items()) {
             String menuName = menuItem.getMenuName();
             int count = menuItem.getMenuCount();
 

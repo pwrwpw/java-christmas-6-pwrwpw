@@ -3,7 +3,7 @@ package christmas.controller;
 import christmas.domain.Amount;
 import christmas.domain.DiscountDetails;
 import christmas.domain.EventBadge;
-import christmas.domain.MenuItems;
+import christmas.domain.SelectMenus;
 import christmas.domain.SelectMenu;
 import christmas.domain.Order;
 import christmas.domain.User;
@@ -25,7 +25,7 @@ public class ChristmasController {
     private Order order;
     private User user;
     private VisitDate visitDate;
-    private MenuItems menuItems;
+    private SelectMenus selectMenus;
     private DiscountDetails discountDetails;
 
     public ChristmasController(OutputView outputView, InputView inputView,
@@ -58,7 +58,7 @@ public class ChristmasController {
 
     private void initUserInput() {
         visitDate = getVisitDate();
-        menuItems = getMenuItems();
+        selectMenus = getSelectMenus();
     }
 
     private void showEventPreview() {
@@ -75,13 +75,13 @@ public class ChristmasController {
         }
     }
 
-    private MenuItems getMenuItems() {
+    private SelectMenus getSelectMenus() {
         try {
             String orderMenu = inputView.getOrderMenu();
             return Parser.parseMenuItems(Parser.splitMenuItems(orderMenu));
         } catch (InvalidOrderException e) {
             System.out.println(e.getMessage());
-            return getMenuItems();
+            return getSelectMenus();
         }
     }
 
@@ -94,13 +94,13 @@ public class ChristmasController {
 
     private void showOrderMenu() {
         outputView.printOrderMenuMessage();
-        for (SelectMenu item : menuItems.getItems()) {
+        for (SelectMenu item : selectMenus.items()) {
             outputView.printOrderMenuItem(item.getMenuName(), item.getMenuCount());
         }
     }
 
     private Amount showTotalPrice() {
-        int totalPrice = menuItems.getItems().stream()
+        int totalPrice = selectMenus.items().stream()
                 .mapToInt(item -> item.getMenuCount() * findMenuPrice(item.getMenuName()))
                 .sum();
 
@@ -114,7 +114,7 @@ public class ChristmasController {
     }
 
     private void createOrder(Amount totalAmount) {
-        order = new Order(visitDate, menuItems.getItems().get(0), totalAmount);
+        order = new Order(visitDate, selectMenus.items().get(0), totalAmount);
     }
 
     private void showPresentMenu() {
@@ -128,7 +128,7 @@ public class ChristmasController {
 
     private void showBenefit() {
         outputView.printBenefitMessage();
-        discountDetails = christmasDiscountService.applyDiscount(order, menuItems);
+        discountDetails = christmasDiscountService.applyDiscount(order, selectMenus);
         outputView.displayDiscountDetails(discountDetails);
     }
 
