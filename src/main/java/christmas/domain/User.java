@@ -1,5 +1,7 @@
 package christmas.domain;
 
+import java.util.List;
+
 public class User {
 
     private final Order order;
@@ -34,5 +36,13 @@ public class User {
 
     public DiscountDetails getDiscountDetails() {
         return discountDetails;
+    }
+
+    public VisitDate getVisitDate() {
+        return order.getVisitDate();
+    }
+
+    public SelectMenus getSelected() {
+        return order.getSelected();
     }
 }

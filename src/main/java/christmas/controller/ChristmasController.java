@@ -26,11 +26,16 @@ public class ChristmasController {
 
     public void run() {
         showWelcomeMessage();
-        VisitDate visitDate = getVisitDate();
-        SelectMenus selectMenus = getSelectMenus();
+        User user = processUserInput();
+        showEventDetails(user, user.getVisitDate(), user.getSelected());
+    }
 
-        User user = christmasService.processChristmasEvent(visitDate, selectMenus);
+    private void showWelcomeMessage() {
+        outputView.printWelcomeMessage();
+        showEventGuideMessage();
+    }
 
+    private void showEventDetails(User user, VisitDate visitDate, SelectMenus selectMenus) {
         showEventPreview(visitDate);
         showOrderMenu(selectMenus);
         showTotalPrice(user.getTotalOrderAmount());
@@ -41,9 +46,10 @@ public class ChristmasController {
         showEventBadge(user.getEventBadgeName());
     }
 
-    private void showWelcomeMessage() {
-        outputView.printWelcomeMessage();
-        showEventGuideMessage();
+    private User processUserInput() {
+        VisitDate visitDate = getVisitDate();
+        SelectMenus selectMenus = getSelectMenus();
+        return christmasService.processChristmasEvent(visitDate, selectMenus);
     }
 
     private VisitDate getVisitDate() {

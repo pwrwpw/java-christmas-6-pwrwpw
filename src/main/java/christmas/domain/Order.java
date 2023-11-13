@@ -1,6 +1,7 @@
 package christmas.domain;
 
 import christmas.policy.ChristmasPolicy;
+import java.util.List;
 
 public class Order {
 
@@ -20,11 +21,19 @@ public class Order {
     public int calculateFinalPayment(int discountAmount) {
         return getTotalAmount() - discountAmount;
     }
-    public int getVisitDay() {
-        return visitDate.getDay();
+    public VisitDate getVisitDate() {
+        return visitDate;
     }
 
     public int getTotalAmount() {
         return totalAmount.value();
+    }
+
+    public SelectMenus getSelected() {
+        return selectMenus;
+    }
+
+    public int getVisitDay() {
+        return visitDate.getDay();
     }
 }
