@@ -1,18 +1,15 @@
 package christmas.controller;
 
-import christmas.domain.Amount;
 import christmas.domain.DiscountDetails;
 import christmas.domain.EventBadge;
-import christmas.domain.SelectMenus;
-import christmas.domain.SelectMenu;
 import christmas.domain.Order;
+import christmas.domain.SelectMenus;
 import christmas.domain.User;
 import christmas.domain.VisitDate;
 import christmas.exception.domain.visitdate.InvalidDayException;
 import christmas.exception.domain.visitdate.InvalidOrderException;
 import christmas.policy.ChristmasPolicy;
-import christmas.policy.MenuPolicy;
-import christmas.service.ChristmasDiscountService;
+import christmas.service.ChristmasService;
 import christmas.utils.Parser;
 import christmas.view.InputView;
 import christmas.view.OutputView;
@@ -21,34 +18,29 @@ public class ChristmasController {
 
     private final OutputView outputView;
     private final InputView inputView;
-    private final ChristmasDiscountService christmasDiscountService;
-    private Order order;
-    private User user;
-    private VisitDate visitDate;
-    private SelectMenus selectMenus;
-    private DiscountDetails discountDetails;
+    private final ChristmasService christmasService;
 
-    public ChristmasController(OutputView outputView, InputView inputView,
-                               ChristmasDiscountService christmasDiscountService) {
+    public ChristmasController(OutputView outputView, InputView inputView, ChristmasService christmasService) {
         this.outputView = outputView;
         this.inputView = inputView;
-        this.christmasDiscountService = christmasDiscountService;
+        this.christmasService = christmasService;
     }
 
     public void run() {
         showWelcomeMessage();
-        initUserInput();
-        showEventPreview();
-        showOrderMenu();
-        Amount totalAmount = showTotalPrice();
-        createOrder(totalAmount);
-        showPresentMenu();
-        showBenefit();
-        showTotalBenefitPrice();
-        user = new User(order,
-                new EventBadge(discountDetails.getTotalDiscount() + discountDetails.getPresentMenuPrice()));
-        showDiscountAfterTotalPrice();
-        showEventBadge();
+        VisitDate visitDate = getVisitDate();
+        SelectMenus selectMenus = getSelectMenus();
+
+        User user = christmasService.processChristmasEvent(visitDate, selectMenus);
+
+        showEventPreview(visitDate);
+        showOrderMenu(selectMenus);
+        showTotalPrice(user.getOrder().getTotalAmount());
+        showPresentMenu(user.getOrder());
+        showBenefit(user.getDiscountDetails());
+        showTotalBenefit(user.getDiscountDetails());
+        showDiscountAfterTotalPrice(user.getOrder(), user.getDiscountDetails());
+        showEventBadge(user.getEventBadge());
     }
 
     private void showWelcomeMessage() {
@@ -56,21 +48,12 @@ public class ChristmasController {
         showEventGuideMessage();
     }
 
-    private void initUserInput() {
-        visitDate = getVisitDate();
-        selectMenus = getSelectMenus();
-    }
-
-    private void showEventPreview() {
-        outputView.printEventPreviewMessage(visitDate.getMonth(), visitDate.getDay());
-    }
-
     private VisitDate getVisitDate() {
         try {
             String day = inputView.getExpectedVisitDay();
             return new VisitDate(ChristmasPolicy.EVENT_YEAR, ChristmasPolicy.DECEMBER, day);
         } catch (InvalidDayException e) {
-            System.out.println(e.getMessage());
+            outputView.printErrorMessage(e.getMessage());
             return getVisitDate();
         }
     }
@@ -80,7 +63,7 @@ public class ChristmasController {
             String orderMenu = inputView.getOrderMenu();
             return Parser.parseMenuItems(Parser.splitMenuItems(orderMenu));
         } catch (InvalidOrderException e) {
-            System.out.println(e.getMessage());
+            outputView.printErrorMessage(e.getMessage());
             return getSelectMenus();
         }
     }
@@ -92,60 +75,48 @@ public class ChristmasController {
         outputView.printMaxMenuItemsNotice();
     }
 
-    private void showOrderMenu() {
+    private void showEventPreview(VisitDate visitDate) {
+        outputView.printEventPreviewMessage(visitDate.getMonth(), visitDate.getDay());
+    }
+
+    private void showOrderMenu(SelectMenus selectMenus) {
         outputView.printOrderMenuMessage();
-        for (SelectMenu item : selectMenus.items()) {
-            outputView.printOrderMenuItem(item.getMenuName(), item.getMenuCount());
-        }
+        selectMenus.items().forEach(item ->
+                outputView.printOrderMenuItem(item.getMenuName(), item.getMenuCount())
+        );
     }
 
-    private Amount showTotalPrice() {
-        int totalPrice = selectMenus.items().stream()
-                .mapToInt(item -> item.getMenuCount() * findMenuPrice(item.getMenuName()))
-                .sum();
-
-        Amount totalAmount = new Amount(totalPrice);
-        outputView.printTotalPriceOutputMessage(totalAmount.value());
-        return totalAmount;
+    private void showTotalPrice(int totalAmount) {
+        outputView.printTotalPriceOutputMessage(totalAmount);
     }
 
-    private int findMenuPrice(String menuName) {
-        return MenuPolicy.getMenuPrice(menuName);
-    }
-
-    private void createOrder(Amount totalAmount) {
-        order = new Order(visitDate, selectMenus.items().get(0), totalAmount);
-    }
-
-    private void showPresentMenu() {
+    private void showPresentMenu(Order order) {
         outputView.printPresentMenuMessage();
-        if (order.getTotalAmount() > ChristmasPolicy.PRESENT_THRESHOLD_AMOUNT) {
+        if (order.isEligibleForPresent()) {
             outputView.printPresentMenuOutputMessage(ChristmasPolicy.PRESENT_NAME, ChristmasPolicy.PRESENT_QUANTITY);
-        } else {
-            outputView.printPresentMenuOutputMessage(ChristmasPolicy.NO);
+            return;
         }
+        outputView.printPresentMenuOutputMessage(ChristmasPolicy.NO_PRESENT);
     }
 
-    private void showBenefit() {
+    private void showBenefit(DiscountDetails discountDetails) {
         outputView.printBenefitMessage();
-        discountDetails = christmasDiscountService.applyDiscount(order, selectMenus);
         outputView.displayDiscountDetails(discountDetails);
     }
 
-    private void showTotalBenefitPrice() {
-        int totalDiscountPrice = discountDetails.getTotalDiscount();
-        int benefitPrice = totalDiscountPrice + discountDetails.getPresentMenuPrice();
-        outputView.printTotalBenefitPriceMessage(benefitPrice);
+    private void showTotalBenefit(DiscountDetails discountDetails) {
+        int totalDiscount = discountDetails.getTotalDiscount();
+        int presentMenuPrice = discountDetails.getPresentMenuPrice();
+        int totalBenefit = totalDiscount + presentMenuPrice;
+        outputView.printTotalBenefitPriceMessage(totalBenefit);
     }
 
-    private void showDiscountAfterTotalPrice() {
-        int totalPrice = order.getTotalAmount();
-        int discountPrice = discountDetails.getTotalDiscount();
-        int discountAfterTotalPrice = totalPrice - discountPrice;
-        outputView.printExpectedPaymentPriceMessage(discountAfterTotalPrice);
+    private void showDiscountAfterTotalPrice(Order order, DiscountDetails discountDetails) {
+        int finalPayment = order.calculateFinalPayment(discountDetails.getTotalDiscount());
+        outputView.printExpectedPaymentPriceMessage(finalPayment);
     }
 
-    private void showEventBadge() {
-        outputView.printEventBadgeMessage(user.getEventBadge());
+    private void showEventBadge(String eventBadge) {
+        outputView.printEventBadgeMessage(eventBadge);
     }
 }
