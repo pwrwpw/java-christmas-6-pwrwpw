@@ -38,7 +38,7 @@ public enum MenuPolicy {
     public static boolean isValidMenuName(String menuName) {
         return Arrays.stream(MenuPolicy.values())
                 .flatMap(menuPolicy -> menuPolicy.getMenuItems().stream())
-                .noneMatch(menuItem -> menuItem.getName().equals(menuName));
+                .noneMatch(menuItem -> menuItem.name().equals(menuName));
     }
 
     public static boolean isNotValidMenuCount(int menuCount) {
@@ -47,15 +47,15 @@ public enum MenuPolicy {
 
     public static boolean isMenuItemInCategory(String menuName, MenuPolicy category) {
         return category.getMenuItems().stream()
-                .anyMatch(menuItem -> menuItem.getName().equals(menuName));
+                .anyMatch(menuItem -> menuItem.name().equals(menuName));
     }
 
     public static int getMenuPrice(String menuName) {
         return Arrays.stream(MenuPolicy.values())
                 .flatMap(category -> category.getMenuItems().stream())
-                .filter(menuItem -> menuItem.getName().equals(menuName))
+                .filter(menuItem -> menuItem.name().equals(menuName))
                 .findFirst()
-                .map(MenuItem::getPrice)
+                .map(MenuItem::price)
                 .orElseThrow(InvalidOrderException::new);
     }
 }
