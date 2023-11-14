@@ -19,14 +19,33 @@ public class ChristmasService {
     }
 
     public User processChristmasEvent(VisitDate visitDate, SelectMenus selectMenus) {
-        Amount totalAmount = orderService.calculateTotalPrice(selectMenus);
-        Order order = orderService.createOrder(visitDate, selectMenus, totalAmount);
-        DiscountDetails discountDetails = christmasDiscountService.applyDiscount(order, selectMenus);
+        Amount totalAmount = calculateTotalAmount(selectMenus);
+        Order order = createOrder(visitDate, selectMenus, totalAmount);
+        DiscountDetails discountDetails = applyDiscounts(order, selectMenus);
 
-        int totalDiscountPrice = discountDetails.getTotalDiscount();
-        int benefitPrice = totalDiscountPrice + discountDetails.getPresentMenuPrice();
+        int totalBenefitAmount = calculateTotalBenefit(discountDetails);
+        EventBadge eventBadge = createEventBadge(totalBenefitAmount);
 
-        EventBadge eventBadge = new EventBadge(benefitPrice);
         return new User(order, eventBadge, discountDetails);
+    }
+
+    private Amount calculateTotalAmount(SelectMenus selectMenus) {
+        return orderService.calculateTotalPrice(selectMenus);
+    }
+
+    private Order createOrder(VisitDate visitDate, SelectMenus selectMenus, Amount totalAmount) {
+        return orderService.createOrder(visitDate, selectMenus, totalAmount);
+    }
+
+    private DiscountDetails applyDiscounts(Order order, SelectMenus selectMenus) {
+        return christmasDiscountService.applyDiscount(order, selectMenus);
+    }
+
+    private int calculateTotalBenefit(DiscountDetails discountDetails) {
+        return discountDetails.getTotalDiscount() + discountDetails.getPresentMenuPrice();
+    }
+
+    private EventBadge createEventBadge(int totalBenefitAmount) {
+        return new EventBadge(totalBenefitAmount);
     }
 }
