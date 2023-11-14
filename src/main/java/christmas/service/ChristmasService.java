@@ -10,11 +10,11 @@ import christmas.domain.VisitDate;
 
 public class ChristmasService {
 
-    private final ChristmasDiscountService christmasDiscountService;
+    private final DiscountService discountService;
     private final OrderService orderService;
 
-    public ChristmasService(ChristmasDiscountService christmasDiscountService, OrderService orderService) {
-        this.christmasDiscountService = christmasDiscountService;
+    public ChristmasService(DiscountService discountService, OrderService orderService) {
+        this.discountService = discountService;
         this.orderService = orderService;
     }
 
@@ -38,7 +38,7 @@ public class ChristmasService {
     }
 
     private DiscountDetails applyDiscounts(Order order, SelectMenus selectMenus) {
-        return christmasDiscountService.applyDiscount(order, selectMenus);
+        return discountService.applyDiscount(order, selectMenus);
     }
 
     private int calculateTotalBenefit(DiscountDetails discountDetails) {
