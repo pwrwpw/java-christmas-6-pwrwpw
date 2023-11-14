@@ -85,34 +85,51 @@ public class OutputView {
     public void displayDiscountDetails(DiscountDetails discountDetails) {
         boolean isDiscounted = false;
 
-        if (discountDetails.getDateBasedDiscount() > 0) {
-            CHRISTMAS_DISCOUNT.print(discountDetails.getDateBasedDiscount());
-            isDiscounted = true;
-        }
-
-        if (discountDetails.getMenuBasedDiscount() > 0 && discountDetails.getIsWeek()) {
-            WEEKDAY_DISCOUNT.print(discountDetails.getMenuBasedDiscount());
-            isDiscounted = true;
-        }
-
-        if (discountDetails.getMenuBasedDiscount() > 0 && !discountDetails.getIsWeek()) {
-            WEEKEND_DISCOUNT.print(discountDetails.getMenuBasedDiscount());
-            isDiscounted = true;
-        }
-
-        if (discountDetails.getStarDayDiscount() > 0) {
-            SPECIAL_DISCOUNT.print(discountDetails.getStarDayDiscount());
-            isDiscounted = true;
-        }
-
-        if (discountDetails.getPresentMenuPrice() > 0) {
-            PRESENT_MENU_PRICE.print(discountDetails.getPresentMenuPrice());
-            isDiscounted = true;
-        }
+        isDiscounted |= displayDateBasedDiscount(discountDetails);
+        isDiscounted |= displayMenuBasedDiscount(discountDetails);
+        isDiscounted |= displayStarDayDiscount(discountDetails);
+        isDiscounted |= displayPresentMenuPriceDiscount(discountDetails);
 
         if (!isDiscounted) {
             NO_BENEFIT.print();
         }
+    }
+
+    private boolean displayDateBasedDiscount(DiscountDetails discountDetails) {
+        if (discountDetails.getDateBasedDiscount() > 0) {
+            CHRISTMAS_DISCOUNT.print(discountDetails.getDateBasedDiscount());
+            return true;
+        }
+        return false;
+    }
+
+    private boolean displayMenuBasedDiscount(DiscountDetails discountDetails) {
+        if (discountDetails.getMenuBasedDiscount() <= 0) {
+            return false;
+        }
+        if (discountDetails.getIsWeek()) {
+            WEEKDAY_DISCOUNT.print(discountDetails.getMenuBasedDiscount());
+            return true;
+        }
+        WEEKEND_DISCOUNT.print(discountDetails.getMenuBasedDiscount());
+        return true;
+    }
+
+
+    private boolean displayStarDayDiscount(DiscountDetails discountDetails) {
+        if (discountDetails.getStarDayDiscount() > 0) {
+            SPECIAL_DISCOUNT.print(discountDetails.getStarDayDiscount());
+            return true;
+        }
+        return false;
+    }
+
+    private boolean displayPresentMenuPriceDiscount(DiscountDetails discountDetails) {
+        if (discountDetails.getPresentMenuPrice() > 0) {
+            PRESENT_MENU_PRICE.print(discountDetails.getPresentMenuPrice());
+            return true;
+        }
+        return false;
     }
 
     public void printBenefitMessage() {
