@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class SelectMenus {
-    private List<SelectMenu> items;
+    private final List<SelectMenu> items;
 
     public SelectMenus(List<SelectMenu> items) {
         validateDuplicate(items);

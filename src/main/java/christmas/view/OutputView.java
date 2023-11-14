@@ -1,51 +1,77 @@
 package christmas.view;
 
+import static christmas.view.OutputViewMessages.BENEFIT_DETAILS;
+import static christmas.view.OutputViewMessages.BEVERAGE_ORDER_RESTRICTION;
+import static christmas.view.OutputViewMessages.CHRISTMAS_DISCOUNT;
+import static christmas.view.OutputViewMessages.EVENT_BADGE;
+import static christmas.view.OutputViewMessages.EVENT_GUIDELINES;
+import static christmas.view.OutputViewMessages.EVENT_PREVIEW;
+import static christmas.view.OutputViewMessages.EXPECTED_PAYMENT;
+import static christmas.view.OutputViewMessages.MAX_MENU_ITEMS;
+import static christmas.view.OutputViewMessages.MAX_MENU_ITEMS_EX;
+import static christmas.view.OutputViewMessages.MINIMUM_ORDER_AMOUNT;
+import static christmas.view.OutputViewMessages.NO_BENEFIT;
+import static christmas.view.OutputViewMessages.ORDER_MENU;
+import static christmas.view.OutputViewMessages.PRESENT_MENU;
+import static christmas.view.OutputViewMessages.PRESENT_MENU_PRICE;
+import static christmas.view.OutputViewMessages.SPECIAL_DISCOUNT;
+import static christmas.view.OutputViewMessages.TOTAL_BENEFIT_AMOUNT;
+import static christmas.view.OutputViewMessages.TOTAL_BENEFIT_OUTPUT;
+import static christmas.view.OutputViewMessages.TOTAL_PRICE;
+import static christmas.view.OutputViewMessages.TOTAL_PRICE_OUTPUT;
+import static christmas.view.OutputViewMessages.WEEKDAY_DISCOUNT;
+import static christmas.view.OutputViewMessages.WEEKEND_DISCOUNT;
+import static christmas.view.OutputViewMessages.WELCOME;
+
 import christmas.domain.DiscountDetails;
 import christmas.policy.ChristmasPolicy;
 
 public class OutputView {
 
+    private static final String ITEM_UNIT = "개";
+    private static final String LINE_SEPARATOR = System.lineSeparator();
+
     public void printWelcomeMessage() {
-        OutputViewMessages.WELCOME.print(ChristmasPolicy.DECEMBER);
+        WELCOME.print(ChristmasPolicy.DECEMBER);
     }
 
     public void printEventPreviewMessage(int userInputMonth, int userInputDay) {
-        OutputViewMessages.EVENT_PREVIEW.print(userInputMonth, userInputDay);
-        System.out.println();
+        EVENT_PREVIEW.print(userInputMonth, userInputDay);
+        System.out.print(LINE_SEPARATOR);
     }
 
     public void printEventGuidelines() {
-        OutputViewMessages.EVENT_GUIDELINES.print();
+        EVENT_GUIDELINES.print();
     }
 
     public void printMinimumOrderAmountNotice() {
-        OutputViewMessages.MINIMUM_ORDER_AMOUNT.print(ChristmasPolicy.MINIMUM_ORDER_AMOUNT);
+        MINIMUM_ORDER_AMOUNT.print(ChristmasPolicy.MINIMUM_ORDER_AMOUNT);
     }
 
     public void printBeverageOrderRestrictionNotice() {
-        OutputViewMessages.BEVERAGE_ORDER_RESTRICTION.print();
+        BEVERAGE_ORDER_RESTRICTION.print();
     }
 
     public void printMaxMenuItemsNotice() {
-        OutputViewMessages.MAX_MENU_ITEMS.print(ChristmasPolicy.MAX_MENU_ITEMS);
-        OutputViewMessages.MAX_MENU_ITEMS_EX.print();
+        MAX_MENU_ITEMS.print(ChristmasPolicy.MAX_MENU_ITEMS);
+        MAX_MENU_ITEMS_EX.print();
     }
 
     public void printOrderMenuMessage() {
-        OutputViewMessages.ORDER_MENU.print();
+        ORDER_MENU.print();
     }
 
     public void printTotalPriceOutputMessage(int totalPrice) {
-        OutputViewMessages.TOTAL_PRICE.print();
-        OutputViewMessages.TOTAL_PRICE_OUTPUT.print(totalPrice);
+        TOTAL_PRICE.print();
+        TOTAL_PRICE_OUTPUT.print(totalPrice);
     }
 
     public void printPresentMenuMessage() {
-        OutputViewMessages.PRESENT_MENU.print();
+        PRESENT_MENU.print();
     }
 
     public void printPresentMenuOutputMessage(String menuName, int menuCount) {
-        System.out.println(menuName + " " + menuCount + "개");
+        System.out.println(menuName + " " + menuCount + ITEM_UNIT);
     }
 
     public void printPresentMenuOutputMessage(String value) {
@@ -53,56 +79,63 @@ public class OutputView {
     }
 
     public void printOrderMenuItem(String menuName, int count) {
-        System.out.println(menuName + " " + count + "개");
+        System.out.println(menuName + " " + count + ITEM_UNIT);
     }
 
     public void displayDiscountDetails(DiscountDetails discountDetails) {
-        boolean isDiscounted = true;
+        boolean isDiscounted = false;
+
         if (discountDetails.getDateBasedDiscount() > 0) {
-            isDiscounted = false;
-            System.out.println("크리스마스 디데이 할인: -" + discountDetails.getDateBasedDiscount() + "원");
+            CHRISTMAS_DISCOUNT.print(discountDetails.getDateBasedDiscount());
+            isDiscounted = true;
         }
+
         if (discountDetails.getMenuBasedDiscount() > 0 && discountDetails.getIsWeek()) {
-            isDiscounted = false;
-            System.out.println("평일 할인: -" + discountDetails.getMenuBasedDiscount() + "원");
+            WEEKDAY_DISCOUNT.print(discountDetails.getMenuBasedDiscount());
+            isDiscounted = true;
         }
+
         if (discountDetails.getMenuBasedDiscount() > 0 && !discountDetails.getIsWeek()) {
-            System.out.println("주말 할인: -" + discountDetails.getMenuBasedDiscount() + "원");
+            WEEKEND_DISCOUNT.print(discountDetails.getMenuBasedDiscount());
+            isDiscounted = true;
         }
+
         if (discountDetails.getStarDayDiscount() > 0) {
-            isDiscounted = false;
-            System.out.println("특별 할인: -" + discountDetails.getStarDayDiscount() + "원");
+            SPECIAL_DISCOUNT.print(discountDetails.getStarDayDiscount());
+            isDiscounted = true;
         }
+
         if (discountDetails.getPresentMenuPrice() > 0) {
-            isDiscounted = false;
-            System.out.println("선물 메뉴 가격: -" + discountDetails.getPresentMenuPrice() + "원");
+            PRESENT_MENU_PRICE.print(discountDetails.getPresentMenuPrice());
+            isDiscounted = true;
         }
-        if (isDiscounted) {
-            System.out.println("없음");
+
+        if (!isDiscounted) {
+            NO_BENEFIT.print();
         }
     }
 
     public void printBenefitMessage() {
-        OutputViewMessages.BENEFIT_DETAILS.print();
+        BENEFIT_DETAILS.print();
     }
 
     public void printTotalBenefitPriceMessage(int totalPrice) {
-        OutputViewMessages.TOTAL_BENEFIT_AMOUNT.print();
+        TOTAL_BENEFIT_AMOUNT.print();
         if (totalPrice == 0) {
-            OutputViewMessages.TOTAL_PRICE_OUTPUT.print(totalPrice);
+            TOTAL_PRICE_OUTPUT.print(totalPrice);
             return;
         }
-        OutputViewMessages.TOTAL_BENEFIT_OUTPUT.print(totalPrice);
+        TOTAL_BENEFIT_OUTPUT.print(totalPrice);
 
     }
 
     public void printExpectedPaymentPriceMessage(int totalPrice) {
-        OutputViewMessages.EXPECTED_PAYMENT.print();
-        OutputViewMessages.TOTAL_PRICE_OUTPUT.print(totalPrice);
+        EXPECTED_PAYMENT.print();
+        TOTAL_PRICE_OUTPUT.print(totalPrice);
     }
 
     public void printEventBadgeMessage(String eventBadge) {
-        OutputViewMessages.EVENT_BADGE.print(ChristmasPolicy.DECEMBER);
+        EVENT_BADGE.print(ChristmasPolicy.DECEMBER);
         System.out.println(eventBadge);
     }
 
