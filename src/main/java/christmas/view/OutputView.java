@@ -29,6 +29,7 @@ import christmas.policy.ChristmasPolicy;
 public class OutputView {
 
     private static final String ITEM_UNIT = "개";
+    private static final String SPACE = " ";
     private static final String LINE_SEPARATOR = System.lineSeparator();
 
     public void printWelcomeMessage() {
@@ -71,7 +72,7 @@ public class OutputView {
     }
 
     public void printPresentMenuOutputMessage(String menuName, int menuCount) {
-        System.out.println(menuName + " " + menuCount + ITEM_UNIT);
+        System.out.println(menuName + SPACE + menuCount + ITEM_UNIT);
     }
 
     public void printPresentMenuOutputMessage(String value) {
@@ -79,7 +80,7 @@ public class OutputView {
     }
 
     public void printOrderMenuItem(String menuName, int count) {
-        System.out.println(menuName + " " + count + ITEM_UNIT);
+        System.out.println(menuName + SPACE + count + ITEM_UNIT);
     }
 
     public void displayDiscountDetails(DiscountDetails discountDetails) {
