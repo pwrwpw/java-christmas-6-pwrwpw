@@ -1,5 +1,7 @@
 package christmas.domain;
 
+import christmas.policy.BadgePolicy;
+
 public class EventBadge {
 
     private final String badgeName;
@@ -9,16 +11,16 @@ public class EventBadge {
     }
 
     private String determineEventBadge(int totalBenefitAmount) {
-        if (totalBenefitAmount >= 20000) {
-            return "산타";
+        if (totalBenefitAmount >= BadgePolicy.SANTA_BENEFIT_AMOUNT) {
+            return BadgePolicy.SANTA;
         }
-        if (totalBenefitAmount >= 10000) {
-            return "트리";
+        if (totalBenefitAmount >= BadgePolicy.TREE_BENEFIT_AMOUNT) {
+            return BadgePolicy.TREE;
         }
-        if (totalBenefitAmount >= 5000) {
-            return "별";
+        if (totalBenefitAmount >= BadgePolicy.STAR_BENEFIT_AMOUNT) {
+            return BadgePolicy.STAR;
         }
-        return "없음";
+        return BadgePolicy.NO_BADGE;
     }
 
     public String getBadgeName() {
