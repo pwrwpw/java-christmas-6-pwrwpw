@@ -35,7 +35,7 @@ public enum MenuPolicy {
         return Collections.unmodifiableList(menuItems);
     }
 
-    public static boolean isValidMenuName(String menuName) {
+    public static boolean isNotValidMenuName(String menuName) {
         return Arrays.stream(MenuPolicy.values())
                 .flatMap(menuPolicy -> menuPolicy.getMenuItems().stream())
                 .noneMatch(menuItem -> menuItem.name().equals(menuName));

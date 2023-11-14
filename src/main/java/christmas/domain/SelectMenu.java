@@ -14,7 +14,7 @@ public record SelectMenu(String menuName, int menuCount) {
     }
 
     private void validateMenuName(String menuName) {
-        if (MenuPolicy.isValidMenuName(menuName)) {
+        if (MenuPolicy.isNotValidMenuName(menuName)) {
             throw new InvalidOrderException();
         }
     }
