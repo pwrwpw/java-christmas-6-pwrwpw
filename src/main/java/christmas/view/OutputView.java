@@ -38,10 +38,10 @@ public class OutputView {
 
     public void printEventPreviewMessage(int userInputMonth, int userInputDay) {
         EVENT_PREVIEW.print(userInputMonth, userInputDay);
-        System.out.print(LINE_SEPARATOR);
     }
 
     public void printEventGuidelines() {
+        printLineSeparator();
         EVENT_GUIDELINES.print();
     }
 
@@ -56,18 +56,22 @@ public class OutputView {
     public void printMaxMenuItemsNotice() {
         MAX_MENU_ITEMS.print(ChristmasPolicy.MAX_MENU_ITEMS);
         MAX_MENU_ITEMS_EX.print();
+        printLineSeparator();
     }
 
     public void printOrderMenuMessage() {
+        printLineSeparator();
         ORDER_MENU.print();
     }
 
     public void printTotalPriceOutputMessage(int totalPrice) {
+        printLineSeparator();
         TOTAL_PRICE.print();
         TOTAL_PRICE_OUTPUT.print(totalPrice);
     }
 
     public void printPresentMenuMessage() {
+        printLineSeparator();
         PRESENT_MENU.print();
     }
 
@@ -134,10 +138,12 @@ public class OutputView {
     }
 
     public void printBenefitMessage() {
+        printLineSeparator();
         BENEFIT_DETAILS.print();
     }
 
     public void printTotalBenefitPriceMessage(int totalPrice) {
+        printLineSeparator();
         TOTAL_BENEFIT_AMOUNT.print();
         if (totalPrice == 0) {
             TOTAL_PRICE_OUTPUT.print(totalPrice);
@@ -148,16 +154,22 @@ public class OutputView {
     }
 
     public void printExpectedPaymentPriceMessage(int totalPrice) {
+        printLineSeparator();
         EXPECTED_PAYMENT.print();
         TOTAL_PRICE_OUTPUT.print(totalPrice);
     }
 
     public void printEventBadgeMessage(String eventBadge) {
+        printLineSeparator();
         EVENT_BADGE.print(ChristmasPolicy.DECEMBER);
         System.out.println(eventBadge);
     }
 
     public void printErrorMessage(String message) {
         System.out.println(message);
+    }
+
+    private void printLineSeparator() {
+        System.out.print(LINE_SEPARATOR);
     }
 }
