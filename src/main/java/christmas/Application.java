@@ -1,7 +1,6 @@
 package christmas;
 
 import christmas.controller.ChristmasController;
-import christmas.domain.Order;
 import christmas.service.ChristmasDiscountService;
 import christmas.service.ChristmasService;
 import christmas.service.ChristmasOrderService;
